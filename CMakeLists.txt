@@ -5,23 +5,15 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
 option(WITH_ASAN "enable sanitize" OFF)
 
-option(WITH_LOCAL_LIBUV "force build with local libuv repo fetched from github" OFF)
-
-if(NOT WITH_LOCAL_LIBUV)
-    find_package(UV)
-endif()
-
-if(NOT UV_FOUND)
-    message("fetch libuv ...")
-    include(FetchContent)
-    FetchContent_Declare(
-        libuv
-        GIT_REPOSITORY https://github.com/libuv/libuv.git
-        GIT_TAG v1.41.0
-        GIT_SHALLOW 1
-        )
-    FetchContent_MakeAvailable(libuv)
-endif()
+message("fetch libuv ...")
+include(FetchContent)
+FetchContent_Declare(
+    libuv
+    GIT_REPOSITORY https://github.com/libuv/libuv.git
+    GIT_TAG v1.41.0
+    GIT_SHALLOW 1
+    )
+FetchContent_MakeAvailable(libuv)
 
 include(ExternalProject)
 ExternalProject_Add(cppcoro
